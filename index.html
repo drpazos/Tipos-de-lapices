@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspots Interactivos - Lápices (1º ESO)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --border: #cbd5e1;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Outfit', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1450px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .taller-interactivo {
+            position: relative;
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: auto;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .img-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            min-height: 400px;
+            text-align: left;
+            background: white;
+        }
+
+        .img-panel {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Hotspot con animación de pulso (+) */
+        .punto-taller {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: #2563eb;
+            color: #fff;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+            cursor: pointer;
+            z-index: 20;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            opacity: 0.9;
+            transition: transform 0.2s, opacity 0.2s;
+            user-select: none;
+        }
+
+        .punto-taller:hover {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.25);
+        }
+
+        .punto-taller::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background-color: #2563eb;
+            animation: pulse-animation 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        .capa-oscura {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            z-index: 990;
+            backdrop-filter: blur(4px);
+        }
+
+        .capa-oscura.activo { display: block; }
+
+        .ficha-herramienta {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 540px;
+            max-width: 90vw;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        .ficha-herramienta.activo { display: block; }
+
+        .ficha-cabecera {
+            background-color: #2563eb;
+            color: white;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ficha-cuerpo {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .ficha-cerrar {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .contenedor-video {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .contenedor-video iframe,
+        .contenedor-video video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="taller-interactivo">
+        <div class="img-container" id="imgContainer">
+            <img id="imgFondo" src="INFOGRAFIA_Lapices.png" alt="Infografía Lápices" class="img-panel">
+            <div id="contenedorPuntos"></div>
+        </div>
+    </div>
+
+    <div class="capa-oscura" id="overlay"></div>
+    <div id="contenedorFicha"></div>
+</div>
+
+<script>
+    // Estos son los mismos datos que editas en tu panel. Si los actualizas en el editor, 
+    // puedes copiar el array de 'lapices_hotspots_v2' de tu localStorage y pegarlo aquí directamente.
+    let LAPICES_DATOS = JSON.parse(localStorage.getItem('lapices_hotspots_v2')) || [
+        { id: "h_grupo", nombre: "Gama Duras (H)", top: 45, left: 25, video: "", descripcion: "Minas duras recomendadas para líneas auxiliares y dibujo técnico de precisión." },
+        { id: "hb_grupo", nombre: "Gama Medias (HB / F)", top: 45, left: 51.5, video: "", descripcion: "Equilibrio perfecto para apuntes, croquis y bocetos diarios en el aula." },
+        { id: "b_grupo", nombre: "Gama Blandas (B)", top: 45, left: 78, video: "", descripcion: "Minas ricas en carbón para sombrear y conseguir trazos oscuros y artísticos." }
+    ];
+
+    const contenedorPuntos = document.getElementById('contenedorPuntos');
+
+    function renderizarPuntos() {
+        contenedorPuntos.innerHTML = '';
+        LAPICES_DATOS.forEach((lapiz) => {
+            const punto = document.createElement('div');
+            punto.className = 'punto-taller';
+            punto.style.top = `${lapiz.top}%`;
+            punto.style.left = `${lapiz.left}%`;
+            punto.textContent = '+';
+
+            punto.addEventListener('click', () => {
+                mostrarFichaModal(lapiz);
+            });
+
+            contenedorPuntos.appendChild(punto);
+        });
+    }
+
+    function procesarUrlVideo(url) {
+        if (!url) return '';
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            let videoId = '';
+            if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            } else if (url.includes('watch?v=')) {
+                videoId = url.split('watch?v=')[1].split('&')[0];
+            }
+            if (videoId) {
+                return `<div class="contenedor-video"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+            }
+        }
+        return `<div class="contenedor-video"><video src="${url}" controls style="width:100%; height:100%;"></video></div>`;
+    }
+
+    function mostrarFichaModal(lapiz) {
+        const contenedorFicha = document.getElementById('contenedorFicha');
+        const overlay = document.getElementById('overlay');
+        const videoHtml = procesarUrlVideo(lapiz.video);
+        
+        contenedorFicha.innerHTML = `
+            <div class="ficha-herramienta activo">
+                <div class="ficha-cabecera">
+                    <h2 style="margin:0; font-size:19px;">${lapiz.nombre}</h2>
+                    <button class="ficha-cerrar" onclick="cerrarModal()">✕</button>
+                </div>
+                <div class="ficha-cuerpo">
+                    ${videoHtml}
+                    <p style="font-size:15px; color:#334155; line-height:1.6; margin:0;">${lapiz.descripcion}</p>
+                </div>
+            </div>
+        `;
+        overlay.classList.add('activo');
+    }
+
+    window.cerrarModal = function() {
+        document.getElementById('contenedorFicha').innerHTML = '';
+        document.getElementById('overlay').classList.remove('activo');
+    };
+
+    renderizarPuntos();
+</script>
+</body>
+</html>
