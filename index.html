@@ -188,12 +188,15 @@
 </div>
 
 <script>
-    // Estos son los mismos datos que editas en tu panel. Si los actualizas en el editor, 
-    // puedes copiar el array de 'lapices_hotspots_v2' de tu localStorage y pegarlo aquí directamente.
-    let LAPICES_DATOS = JSON.parse(localStorage.getItem('lapices_hotspots_v2')) || [
-        { id: "h_grupo", nombre: "Gama Duras (H)", top: 45, left: 25, video: "", descripcion: "Minas duras recomendadas para líneas auxiliares y dibujo técnico de precisión." },
-        { id: "hb_grupo", nombre: "Gama Medias (HB / F)", top: 45, left: 51.5, video: "", descripcion: "Equilibrio perfecto para apuntes, croquis y bocetos diarios en el aula." },
-        { id: "b_grupo", nombre: "Gama Blandas (B)", top: 45, left: 78, video: "", descripcion: "Minas ricas en carbón para sombrear y conseguir trazos oscuros y artísticos." }
+    // Datos fijos integrados para que carguen siempre en GitHub Pages sin depender del navegador
+    let LAPICES_DATOS = [
+        { id: "punto_1", nombre: "Gama H (Duras)", top: 78.8, left: 7.6, video: "Video/Tipos_de_Lapices_H.mp4", descripcion: "Minas duras ideales para líneas auxiliares y dibujo técnico de gran precisión." },
+        { id: "punto_2", nombre: "Gama HB y F (Medias)", top: 54.1, left: 49.8, video: "Video/Tipos_de_Lapices_HB.mp4", descripcion: "El equilibrio perfecto para apuntes, croquis y dibujo general del día a día." },
+        { id: "punto_3", nombre: "Gama B (Blandas)", top: 55.4, left: 91.9, video: "Video/Tipos_de_Lapices_B.mp4", descripcion: "Minas ricas en grafito blando para sombrear, difuminar y trazos artísticos." },
+        { id: "punto_4", nombre: "Plano Técnico", top: 9.2, left: 52.2, video: "Video/Plano_tecnico.mp4", descripcion: "Ejemplo práctico de aplicación en dibujo técnico con líneas finas y limpias." },
+        { id: "punto_5", nombre: "Boceto Artístico", top: 55.5, left: 7.7, video: "Video/BOCETO_Artistico.mp4", descripcion: "Proceso de creación de bocetos rápidos y encajes artísticos iniciales." },
+        { id: "punto_6", nombre: "Industrial Design", top: 78.4, left: 48.3, video: "Video/Industrial_design.mp4", descripcion: "Aplicación del trazo en diseño de producto y perspectiva industrial." },
+        { id: "punto_7", nombre: "Detalle de Punta", top: 78.7, left: 92.8, video: "Video/Tipos_de_Lapices_B.mp4", descripcion: "Comparativa visual del grosor y comportamiento de la mina sobre el papel." }
     ];
 
     const contenedorPuntos = document.getElementById('contenedorPuntos');
@@ -216,7 +219,7 @@
     }
 
     function procesarUrlVideo(url) {
-        if (!url) return '';
+        if (!url) return '<p style="color:white; text-align:center; padding:20px;">Vídeo no disponible</p>';
         if (url.includes('youtube.com') || url.includes('youtu.be')) {
             let videoId = '';
             if (url.includes('youtu.be/')) {
