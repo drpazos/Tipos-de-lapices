@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotspots Interactivos - Lápices (1º ESO)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0f172a;
@@ -189,15 +188,15 @@
 </div>
 
 <script>
-    // Datos fijos de los 7 puntos con sus coordenadas y rutas de vídeo correctas
+    // Datos fijos integrados con vuestros 7 puntos y sus vídeos en la carpeta Video/
     let LAPICES_DATOS = [
-        { id: "punto_1", nombre: "Gama H (Duras)", top: 78.8, left: 7.6, video: "Video/Tipos_de_Lapices_H.mp4", descripcion: "Minas duras ideales para líneas auxiliares y dibujo técnico de gran precisión." },
-        { id: "punto_2", nombre: "Gama HB y F (Medias)", top: 54.1, left: 49.8, video: "Video/Tipos_de_Lapices_HB.mp4", descripcion: "El equilibrio perfecto para apuntes, croquis y dibujo general del día a día." },
-        { id: "punto_3", nombre: "Gama B (Blandas)", top: 55.4, left: 91.9, video: "Video/Tipos_de_Lapices_B.mp4", descripcion: "Minas ricas en grafito blando para sombrear, difuminar y trazos artísticos." },
-        { id: "punto_4", nombre: "Plano Técnico", top: 9.2, left: 52.2, video: "Video/Plano_tecnico.mp4", descripcion: "Ejemplo práctico de aplicación en dibujo técnico con líneas finas y limpias." },
-        { id: "punto_5", nombre: "Boceto Artístico", top: 55.5, left: 7.7, video: "Video/BOCETO_Artistico.mp4", descripcion: "Proceso de creación de bocetos rápidos y encajes artísticos iniciales." },
-        { id: "punto_6", nombre: "Industrial Design", top: 78.4, left: 48.3, video: "Video/Industrial_design.mp4", descripcion: "Aplicación del trazo en diseño de producto y perspectiva industrial." },
-        { id: "punto_7", nombre: "¿Cómo se fabrica un lápiz?", top: 78.7, left: 92.8, video: "https://www.youtube.com/watch?v=SBM5yAgLC7g", descripcion: "Vídeo donde se explica como la marca alemana Faber-Castell hace sus lápices de colores" }
+        { id: "p1", nombre: "Plano Técnico", top: 8.1, left: 52.6, video: "Video/Plano_tecnico.mp4", descripcion: "Aplicación de minas duras para líneas auxiliares y dibujo técnico de precisión." },
+        { id: "p2", nombre: "Gama H (Duras)", top: 78.8, left: 7.7, video: "Video/Tipos_de_Lapices_H.mp4", descripcion: "Minas duras recomendadas para trazos finos y limpios." },
+        { id: "p3", nombre: "Gama HB y F (Medias)", top: 56.4, left: 7.8, video: "Video/Tipos_de_Lapices_HB.mp4", descripcion: "Equilibrio perfecto para apuntes y croquis generales." },
+        { id: "p4", nombre: "Boceto Artístico", top: 56.9, left: 55.2, video: "Video/BOCETO_Artistico.mp4", descripcion: "Proceso de creación de bocetos rápidos y encajes iniciales." },
+        { id: "p5", nombre: "Industrial Design", top: 77.2, left: 48.3, video: "Video/Industrial_design.mp4", descripcion: "Uso del trazo en diseño de producto y perspectiva." },
+        { id: "p6", nombre: "Gama B (Blandas)", top: 55.1, left: 91.9, video: "Video/Tipos_de_Lapices_B.mp4", descripcion: "Minas ricas en carbón para sombrear y conseguir tonos oscuros." },
+        { id: "p7", nombre: "Detalle de Punta", top: 76.6, left: 92.6, video: "Video/Tipos_de_Lapices_B.mp4", descripcion: "Comparativa visual del comportamiento de la mina sobre el papel." }
     ];
 
     const contenedorPuntos = document.getElementById('contenedorPuntos');
@@ -263,5 +262,4 @@
     renderizarPuntos();
 </script>
 
-</body>
-</html>
+</body></html>
